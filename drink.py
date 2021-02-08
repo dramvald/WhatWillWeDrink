@@ -3,14 +3,12 @@ import json
 import traceback
 from prettytable import PrettyTable
 
-p = PrettyTable()
-
 try:
     # req_url адрес сервера
     req_url = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
 
 
-    def reqs(req_url):
+    def interpellation(req_url):
         # Делам запрос на сервер по адресу req_url.
         resp = requests.get(req_url).text
         # Преобразуем строку json в объект python типа dict.
@@ -38,9 +36,9 @@ try:
             # Делаю проверку на алкогольный или без алкогольный напиток, и если он без алкогольный,
             # то отправляется снова запрос и проходит по циклу.
             if ALCOHOL != item['strAlcoholic']:
-                reqs(req_url)
+                interpellation(req_url)
             else:
-                print(ALCOHOL)
+                p = PrettyTable()
                 p.add_column('Drink name', [drink])
                 p.add_column('Instructions for preparation', [instruction])
                 p.add_column('Ingredients', [ingredients])
@@ -48,8 +46,7 @@ try:
                 print(p.get_string())
 
 
-    reqs(req_url)
-    input()
+    interpellation(req_url)
 # Здесь работа над ошибкой, когда отсутствует интернет.
 except ConnectionError:
     print('Нет соединения с интернетом')
@@ -57,6 +54,3 @@ except ConnectionError:
 except Exception as e:
     print('Ошибка:\n', traceback.format_exc())
     print()
-
-
-
