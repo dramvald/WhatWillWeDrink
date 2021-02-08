@@ -2,6 +2,7 @@ import requests
 import json
 import traceback
 from prettytable import PrettyTable
+
 p = PrettyTable()
 
 try:
@@ -12,13 +13,13 @@ try:
     def reqs(req_url):
         # Делам запрос на сервер по адресу req_url.
         resp = requests.get(req_url).text
-        # Преобразуем строку json в обьект python типа dict.
+        # Преобразуем строку json в объект python типа dict.
         date = json.loads(resp)
-        # Так как содержимае ключа drinks имеет тип list,
+        # Так как содержимое ключа drinks имеет тип list,
         # использую for для того чтобы пройтись по элементам списка,
-        # которые являються словорями, и взять нужные данные.
+        # которые являются словарями, и взять нужные данные.
         for item in date['drinks']:
-            alcohol = item['strAlcoholic']
+            ALCOHOL = 'Alcoholic'
             drink = item['strDrink']
             instruction = item['strInstructions']
             ingredients = item['strIngredient1'], item['strIngredient2'], item['strIngredient3'], \
@@ -31,15 +32,15 @@ try:
                       item['strMeasure7'], item['strMeasure8'], item['strMeasure9'], \
                       item['strMeasure10'], item['strMeasure11'], item['strMeasure12'], \
                       item['strMeasure13'], item['strMeasure14'], item['strMeasure15']
-            # уменьшаю список убирая в ingredients и measure элементы имеющие None
+            # Уменьшаю список убирая в ingredients и measure элементы имеющие None.
             ingredients = list(filter(None, ingredients))
             measure = list(filter(None, measure))
-            # делаю проверку на алкогольный или без алкогольный напиток, и если он без алкогольный,
-            # то отправляеться сново запрос и проходит по циклу
-            if alcohol != 'Alcoholic':
-                return reqs(req_url)
+            # Делаю проверку на алкогольный или без алкогольный напиток, и если он без алкогольный,
+            # то отправляется снова запрос и проходит по циклу.
+            if ALCOHOL != item['strAlcoholic']:
+                reqs(req_url)
             else:
-                print(alcohol)
+                print(ALCOHOL)
                 p.add_column('Drink name', [drink])
                 p.add_column('Instructions for preparation', [instruction])
                 p.add_column('Ingredients', [ingredients])
@@ -49,10 +50,13 @@ try:
 
     reqs(req_url)
     input()
-# здесь работа над ошибмой, когда отсутсвует интернет
+# Здесь работа над ошибкой, когда отсутствует интернет.
 except ConnectionError:
     print('Нет соединения с интернетом')
-# здесь работа над всеми остальными ошибками которые возникают в ходе программы
+# Здесь работа над всеми остальными ошибками которые возникают в ходе программы.
 except Exception as e:
     print('Ошибка:\n', traceback.format_exc())
     print()
+
+
+
