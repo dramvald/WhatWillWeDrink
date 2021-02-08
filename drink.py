@@ -37,12 +37,6 @@ try:
             # делаю проверку на алкогольный или без алкогольный напиток, и если он без алкогольный,
             # то отправляеться сново запрос и проходит по циклу
             if alcohol != 'Alcoholic':
-                print(alcohol)
-                p.add_column('Назваие напитка', [drink])
-                p.add_column('Инструкиця по приготовлению', [instruction])
-                p.add_column('Ингридиеты', [ingredients])
-                p.add_column('Колливечто ингридиента', [measure])
-                print(p.get_string())
                 return reqs(req_url)
             else:
                 print(alcohol)
