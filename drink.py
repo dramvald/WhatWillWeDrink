@@ -3,6 +3,7 @@ import json
 import traceback
 from prettytable import PrettyTable
 
+ALCOHOL = 'Alcoholic'
 try:
     # req_url адрес сервера
     req_url = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
@@ -17,7 +18,6 @@ try:
         # использую for для того чтобы пройтись по элементам списка,
         # которые являются словарями, и взять нужные данные.
         for item in date['drinks']:
-            ALCOHOL = 'Alcoholic'
             drink = item['strDrink']
             instruction = item['strInstructions']
             ingredients = item['strIngredient1'], item['strIngredient2'], item['strIngredient3'], \
@@ -38,15 +38,21 @@ try:
             if ALCOHOL != item['strAlcoholic']:
                 interpellation(req_url)
             else:
-                p = PrettyTable()
-                p.add_column('Drink name', [drink])
-                p.add_column('Instructions for preparation', [instruction])
-                p.add_column('Ingredients', [ingredients])
-                p.add_column('Ingredient quantity', [measure])
-                print(p.get_string())
+                return drink, instruction, ingredients, measure
 
 
-    interpellation(req_url)
+    def conclusion(drink, instruction, ingredients, measure):
+        p = PrettyTable()
+        p.add_column('Drink name', [drink])
+        p.add_column('Drink sign', [ALCOHOL])
+        p.add_column('Instructions for preparation', [instruction])
+        p.add_column('Ingredients', [ingredients])
+        p.add_column('Ingredient quantity', [measure])
+        print(p.get_string())
+
+
+    #drink, instruction, ingredients, measure = interpellation(req_url)
+    #conclusion(drink, instruction, ingredients, measure)
 # Здесь работа над ошибкой, когда отсутствует интернет.
 except ConnectionError:
     print('Нет соединения с интернетом')
