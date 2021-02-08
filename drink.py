@@ -46,14 +46,15 @@ try:
                 return reqs(req_url)
             else:
                 print(alcohol)
-                p.add_column('Назваие напитка', [drink])
-                p.add_column('Инструкиця по приготовлению', [instruction])
-                p.add_column('Ингридиеты', [ingredients])
-                p.add_column('Колливечто ингридиента', [measure])
+                p.add_column('Drink name', [drink])
+                p.add_column('Instructions for preparation', [instruction])
+                p.add_column('Ingredients', [ingredients])
+                p.add_column('Ingredient quantity', [measure])
                 print(p.get_string())
 
 
     reqs(req_url)
+    input()
 # здесь работа над ошибмой, когда отсутсвует интернет
 except ConnectionError:
     print('Нет соединения с интернетом')
