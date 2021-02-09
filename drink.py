@@ -1,6 +1,5 @@
 import requests
 import json
-import traceback
 from prettytable import PrettyTable
 
 # константа
@@ -42,6 +41,7 @@ def interpellation(req_url):
             return drink, instruction, ingredients, measure
 
 
+# Создал отдельную функцию для таблицы.
 def conclusion(drink, instruction, ingredients, measure):
     p = PrettyTable()
     p.add_column('Drink name', [drink])
