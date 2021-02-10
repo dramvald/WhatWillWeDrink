@@ -1,5 +1,6 @@
 import traceback
 import drink
+import requests
 
 ALCOHOL = 'Alcoholic'
 # req_url адрес сервера
@@ -9,8 +10,11 @@ try:
     drink.conclusion(tipple, instruction, ingredients, measure)
 # Здесь работа над ошибкой, когда отсутствует интернет.
 except ConnectionError:
-    print('Нет соединения с интернетом')
+    print('No internet connection!')
+except requests.ConnectionError:
+    print('No internet connection!')
+
 # Здесь работа над всеми остальными ошибками которые возникают в ходе программы.
 except Exception as e:
-    print('Ошибка:\n', traceback.format_exc())
+    print('Error:\n', traceback.format_exc())
     print()
