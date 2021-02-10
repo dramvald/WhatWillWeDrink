@@ -12,7 +12,7 @@ req_url = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
 def interpellation(req_url):
     # Делам запрос на сервер по адресу req_url.
     # Преобразуем строку json в объект python типа dict.
-    date = json.loads(requests.get(req_url).text)
+    date = requests.get(req_url).json()
     # Так как содержимое ключа drinks имеет тип list,
     # использую for для того чтобы пройтись по элементам списка,
     # которые являются словарями, и взять нужные данные.
