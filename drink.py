@@ -2,21 +2,19 @@ import requests
 import json
 from prettytable import PrettyTable
 
-# константа
 ALCOHOL = 'Alcoholic'
-
 # req_url адрес сервера
 req_url = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
 
 
-def interpellation(req_url):
+def get_drink_data(req_url):
     # Делам запрос на сервер по адресу req_url.
     # Преобразуем строку json в объект python типа dict.
-    date = requests.get(req_url).json()
+    data = requests.get(req_url).json()
     # Так как содержимое ключа drinks имеет тип list,
     # использую for для того чтобы пройтись по элементам списка,
     # которые являются словарями, и взять нужные данные.
-    for item in date['drinks']:
+    for item in data['drinks']:
         drink = item['strDrink']
         instruction = item['strInstructions']
         ingredients = item['strIngredient1'], item['strIngredient2'], item['strIngredient3'], \
@@ -35,13 +33,13 @@ def interpellation(req_url):
         # Делаю проверку на алкогольный или без алкогольный напиток, и если он без алкогольный,
         # то отправляется снова запрос и проходит по циклу.
         if ALCOHOL != item['strAlcoholic']:
-            interpellation(req_url)
+            get_drink_data(req_url)
         else:
             return drink, instruction, ingredients, measure
 
 
-# Создал отдельную функцию для таблицы.
-def conclusion(drink, instruction, ingredients, measure):
+def show_drink(drink, instruction, ingredients, measure):
+    # Создал функцию для вывода таблицы.
     p = PrettyTable()
     p.add_column('Drink name', [drink])
     p.add_column('Drink sign', [ALCOHOL])
@@ -50,5 +48,5 @@ def conclusion(drink, instruction, ingredients, measure):
     p.add_column('Ingredient quantity', [measure])
     print(p.get_string())
 
-# drink, instruction, ingredients, measure = interpellation(req_url)
-# conclusion(drink, instruction, ingredients, measure)
+# drink, instruction, ingredients, measure = get_drink_data(req_url)
+# show_drink(drink, instruction, ingredients, measure)
