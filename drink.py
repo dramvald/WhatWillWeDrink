@@ -1,6 +1,7 @@
 import requests
 import json
 from prettytable import PrettyTable
+import re
 
 
 ALCOHOL = 'Alcoholic'
@@ -11,23 +12,29 @@ req_url = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
 def get_drink_data(req_url):
     # Делам запрос на сервер по адресу req_url.
     # Преобразуем строку json в объект python типа dict.
-    date = requests.get(req_url).json()
+    data = requests.get(req_url).json()
+
+    def get_instructions_measures():
+        # Эта функция позволяет автоматически искать и заносит в список ингредиенты, и их количество
+        str_key_ingredient = r'^strIngredient.'
+        str_key_measure = r'^strMeasure.'
+        str_ingredient = []
+        str_measure = []
+        for key in data['drinks']:
+            for x, y in key.items():
+                if re.match(str_key_ingredient, x):
+                    str_ingredient.append(y)
+                if re.match(str_key_measure, x):
+                    str_measure.append(y)
+        return str_ingredient, str_measure
+    ingredients, measure = get_instructions_measures()
     # Так как содержимое ключа drinks имеет тип list,
     # использую for для того чтобы пройтись по элементам списка,
     # которые являются словарями, и взять нужные данные.
-    for item in date['drinks']:
+    for item in data['drinks']:
         drink = item['strDrink']
         instruction = item['strInstructions']
-        ingredients = item['strIngredient1'], item['strIngredient2'], item['strIngredient3'], \
-                      item['strIngredient4'], item['strIngredient5'], item['strIngredient6'], \
-                      item['strIngredient7'], item['strIngredient8'], item['strIngredient9'], \
-                      item['strIngredient10'], item['strIngredient11'], item['strIngredient12'], \
-                      item['strIngredient13'], item['strIngredient14'], item['strIngredient15']
-        measure = item['strMeasure1'], item['strMeasure2'], item['strMeasure3'], \
-                  item['strMeasure4'], item['strMeasure5'], item['strMeasure6'], \
-                  item['strMeasure7'], item['strMeasure8'], item['strMeasure9'], \
-                  item['strMeasure10'], item['strMeasure11'], item['strMeasure12'], \
-                  item['strMeasure13'], item['strMeasure14'], item['strMeasure15']
+
         # Уменьшаю список убирая в ingredients и measure элементы имеющие None.
         ingredients = list(filter(None, ingredients))
         measure = list(filter(None, measure))
