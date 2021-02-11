@@ -18,15 +18,15 @@ def get_drink_data(req_url):
         # Эта функция позволяет автоматически искать и заносит в список ингредиенты, и их количество
         str_key_ingredient = r'^strIngredient.'
         str_key_measure = r'^strMeasure.'
-        str_ingredient = []
-        str_measure = []
+        ingredient = []
+        measure = []
         for key in data['drinks']:
             for x, y in key.items():
                 if re.match(str_key_ingredient, x):
-                    str_ingredient.append(y)
+                    ingredient.append(y)
                 if re.match(str_key_measure, x):
-                    str_measure.append(y)
-        return str_ingredient, str_measure
+                    measure.append(y)
+        return ingredient, measure
     ingredients, measure = get_instructions_measures()
     # Так как содержимое ключа drinks имеет тип list,
     # использую for для того чтобы пройтись по элементам списка,
