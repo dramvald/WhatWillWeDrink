@@ -34,7 +34,7 @@ def get_drink_data(req_url):
         # Делаю проверку на алкогольный или без алкогольный напиток, и если он без алкогольный,
         # то отправляется снова запрос и проходит по циклу.
         if ALCOHOL != item['strAlcoholic']:
-            get_drink_data(req_url)
+            return get_drink_data(req_url)
         else:
             return drink, instruction, ingredients, measure
 
