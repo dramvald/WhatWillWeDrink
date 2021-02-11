@@ -2,12 +2,11 @@ import traceback
 import drink
 import requests
 
-ALCOHOL = 'Alcoholic'
 # req_url адрес сервера
 req_url = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
 try:
-    tipple, instruction, ingredients, measure = drink.interpellation(req_url)
-    drink.conclusion(tipple, instruction, ingredients, measure)
+    tipple, instruction, ingredients, measure = drink.get_drink_data(req_url)
+    drink.show_drink(tipple, instruction, ingredients, measure)
 # Здесь работа над ошибкой, когда отсутствует интернет.
 except ConnectionError:
     print('No internet connection!')
