@@ -2,6 +2,7 @@ import requests
 import json
 from prettytable import PrettyTable
 
+
 ALCOHOL = 'Alcoholic'
 # req_url адрес сервера
 req_url = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
@@ -10,11 +11,11 @@ req_url = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
 def get_drink_data(req_url):
     # Делам запрос на сервер по адресу req_url.
     # Преобразуем строку json в объект python типа dict.
-    data = requests.get(req_url).json()
+    date = requests.get(req_url).json()
     # Так как содержимое ключа drinks имеет тип list,
     # использую for для того чтобы пройтись по элементам списка,
     # которые являются словарями, и взять нужные данные.
-    for item in data['drinks']:
+    for item in date['drinks']:
         drink = item['strDrink']
         instruction = item['strInstructions']
         ingredients = item['strIngredient1'], item['strIngredient2'], item['strIngredient3'], \
@@ -39,7 +40,7 @@ def get_drink_data(req_url):
 
 
 def show_drink(drink, instruction, ingredients, measure):
-    # Создал функцию для вывода таблицы.
+    # Создал функцию для создания таблицы.
     p = PrettyTable()
     p.add_column('Drink name', [drink])
     p.add_column('Drink sign', [ALCOHOL])
