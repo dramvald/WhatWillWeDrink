@@ -11,12 +11,12 @@ MEASURE = r'^strMeasure.'
 
 
 def get_drink_data(RANDOM_DRINK_API_URL):
-    # Делам запрос на сервер по адресу req_url.
-    # Преобразуем строку json в объект python типа dict.
+    """Делам запрос на сервер по адресу req_url.
+    Преобразуем строку json в объект python типа dict."""
     data = requests.get(RANDOM_DRINK_API_URL).json()
 
     def get_instructions_measures():
-        # Эта функция позволяет автоматически искать и заносит в список ингредиенты, и их количество
+        """Эта функция позволяет автоматически искать и заносит в список ингредиенты, и их количество"""
         ingredient = []
         measure = []
         for key in data['drinks']:
@@ -46,7 +46,7 @@ def get_drink_data(RANDOM_DRINK_API_URL):
 
 
 def show_drink(drink, instruction, ingredients, measure):
-    # Создал функцию для создания таблицы.
+    """Функция для создания таблицы."""
     p = PrettyTable()
     p.add_column('Drink name', [drink])
     p.add_column('Drink sign', [ALCOHOL])
