@@ -5,26 +5,25 @@ import re
 
 
 ALCOHOL = 'Alcoholic'
-# req_url адрес сервера
-req_url = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
+RANDOM_DRINK_API_URL = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
+INGREDIENT = r'^strIngredient.'
+MEASURE = r'^strMeasure.'
 
 
-def get_drink_data(req_url):
+def get_drink_data(RANDOM_DRINK_API_URL):
     # Делам запрос на сервер по адресу req_url.
     # Преобразуем строку json в объект python типа dict.
-    data = requests.get(req_url).json()
+    data = requests.get(RANDOM_DRINK_API_URL).json()
 
     def get_instructions_measures():
         # Эта функция позволяет автоматически искать и заносит в список ингредиенты, и их количество
-        str_key_ingredient = r'^strIngredient.'
-        str_key_measure = r'^strMeasure.'
         ingredient = []
         measure = []
         for key in data['drinks']:
             for x, y in key.items():
-                if re.match(str_key_ingredient, x):
+                if re.match(INGREDIENT, x):
                     ingredient.append(y)
-                if re.match(str_key_measure, x):
+                if re.match(MEASURE, x):
                     measure.append(y)
         return ingredient, measure
     ingredients, measure = get_instructions_measures()
@@ -41,7 +40,7 @@ def get_drink_data(req_url):
         # Делаю проверку на алкогольный или без алкогольный напиток, и если он без алкогольный,
         # то отправляется снова запрос и проходит по циклу.
         if ALCOHOL != item['strAlcoholic']:
-            return get_drink_data(req_url)
+            return get_drink_data(RANDOM_DRINK_API_URL)
         else:
             return drink, instruction, ingredients, measure
 
