@@ -41,6 +41,7 @@ def sort_values(drinks, property_name):
 def show_drink(drinks, instruction, ingredients, measure):
     """Функция для создания таблицы."""
     p = PrettyTable()
+
     p.add_column('Drink name', [drinks])
     p.add_column('Drink sign', [ALCOHOL])
     p.add_column('Instructions for preparation', [instruction])
@@ -48,8 +49,3 @@ def show_drink(drinks, instruction, ingredients, measure):
     p.add_column('Ingredient quantity', [measure])
     print(p.get_string())
 
-
-#drinks, instruction, data_drinks = get_drink_data(RANDOM_DRINK_API_URL)
-#ingredients = sort_values(data_drinks, INGREDIENT)
-#measure = sort_values(data_drinks, MEASURE)
-#show_drink(drinks, instruction, ingredients, measure)
